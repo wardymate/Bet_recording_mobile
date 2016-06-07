@@ -5,23 +5,38 @@ import ReactNative, {
   StyleSheet,
   View,
   TouchableHighlight,
-  Text
+  Text,
+  SegmentedControlIOS,
+  TextInput,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 var api = require('../Utils/api');
 
 var styles = StyleSheet.create({
-  thumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10
-  },
   textContainer: {
     flex: 1
   },
+  eachWaySelect: {
+    height: 40,
+    padding: 10,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    flex: 4,
+    borderWidth: 1,
+    borderColor: '#48BBEC',
+    borderRadius: 8
+  },
+  headerSpace: {
+    height: 80,
+    backgroundColor: 'white'
+  },
   separator: {
     height: 1,
-    backgroundColor: '#dddddd'
+    backgroundColor: '#dddddd',
+    marginBottom: 20,
+    marginTop: 10
   },
   price: {
     fontSize: 25,
@@ -32,7 +47,8 @@ var styles = StyleSheet.create({
     color: 'black',
     backgroundColor: 'white',
     fontSize: 30,
-    margin: 80
+    marginLeft: 20,
+    marginRight: 20
   },
   title: {
     fontSize: 20,
@@ -41,34 +57,110 @@ var styles = StyleSheet.create({
   rowContainer: {
     flexDirection: 'row',
     padding: 20
-  }
+  },
+  button: {
+    height: 80,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderColor: 'blue',
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    fontSize: 25,
+    color: '#111',
+    alignSelf: 'center'
+  },
+  otherAmountInput: {
+    height: 40,
+    padding: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    flex: 4,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: '#48BBEC',
+    borderRadius: 8,
+    color: '#48BBEC'
+  },
 });
 
 class Betaction extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false
+      isLoading: false,
+      request: this.props.request,
+      fractionPrice: this.props.fractionPrice,
+      ewText: this.props.ewText,
+      otherAmount: '' 
     }
-    console.log(this.props.request);
   }
 
-  buttonPressed() {
+  fullStakesReturned() {
   
+  }
+  
+  onOtherAmountChanged(event) {
+    this.setState({ otherAmount: event.nativeEvent.text });
   }
 
   render() {
+    var request = this.state.request;
+    console.log(request);
+    var fractionPrice = this.state.fractionPrice;
+    var ewText = this.state.ewText;
     return (
       <View>
+        <View style={styles.headerSpace}/>
         <Text
           style={styles.text}
-          >Action Bet
+          >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name }
         </Text>
         <TouchableHighlight
-        style={styles.button}
-        onPress={this.buttonPressed.bind(this)}
-        underlayColor="white">
-        <Text style={styles.buttonText}> Press Me </Text>
+          style={styles.button}
+          onPress={this.fullStakesReturned.bind(this)}
+          underlayColor="white">
+          <Text style={styles.buttonText}>Confirm £{request.amount} {ewText} at {fractionPrice} </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.fullStakesReturned.bind(this)}
+          underlayColor="white">
+          <Text style={styles.buttonText}>Price Changed</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.fullStakesReturned.bind(this)}
+          underlayColor="white">
+          <Text style={styles.buttonText}>SP Only</Text>
+        </TouchableHighlight>
+        <View style={styles.separator}/>
+        <TextInput
+          style={styles.otherAmountInput}
+          value={this.state.otherAmount}
+          onChange={this.onOtherAmountChanged.bind(this)}
+          placeholder='Enter Different Amount'/>
+        <SegmentedControlIOS
+          style={styles.eachWaySelect}
+          values={['Win', 'Each Way', 'Half Place']}
+          selectedIndex={this.state.selectedIndex}
+          onChange={(event) => {
+            this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+          }}
+        />
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.fullStakesReturned.bind(this)}
+          underlayColor="white">
+          <Text style={styles.buttonText}>Confirm Reduced Stakes</Text>
         </TouchableHighlight>
       </View>
     );

@@ -12,11 +12,6 @@ import ReactNative, {
 var Betaction = require('./Betaction');
 
 var styles = StyleSheet.create({
-  thumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10
-  },
   textContainer: {
     flex: 1
   },
@@ -26,7 +21,6 @@ var styles = StyleSheet.create({
   },
   selection: {
     fontSize: 25,
-    fontWeight: 'bold',
     color: '#0000ff'
   },
   bet: {
@@ -82,7 +76,7 @@ class BetRequests extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    var price = this.fetchPrice(rowData.price);
+    var fractionPrice = this.fetchPrice(rowData.price);
     var ewText = this.eachWayText(rowData.each_way);
     return (
       <TouchableHighlight onPress={() => this.rowPressed(rowData)}
@@ -92,7 +86,7 @@ class BetRequests extends Component {
             <View style={styles.textContainer}>
               <Text style={styles.selection}>{rowData.selection.name} {rowData.selection.event_name} {rowData.selection.event.meeting.name }</Text>
               <Text style={styles.bet}
-                numberOfLines={1}>£{rowData.amount} {ewText} at {price}</Text>
+                numberOfLines={1}>£{rowData.amount} {ewText} at {fractionPrice}</Text>
               <Text style={styles.bet}
                 numberOfLines={1}>{rowData.comment}</Text>
             </View>
@@ -105,9 +99,13 @@ class BetRequests extends Component {
 
   rowPressed(betRequest) {
     this.props.navigator.push({
-      title: betRequest.bookmaker.name + ' Bets',
+      title: betRequest.selection.name + ' response',
       component: Betaction,
-      passProps: {request: betRequest}
+      passProps: {
+        request: betRequest,
+        fractionPrice: this.fetchPrice(betRequest.price),
+        ewText: this.eachWayText(betRequest.each_way)
+      }
     });
   }
 

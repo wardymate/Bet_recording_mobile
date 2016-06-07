@@ -43,18 +43,35 @@ class Main extends Component {
     });
   }
 
+  displayTodaysBets() {
+  
+  }
+
+  displayHoldingFigure() {
+  
+  }
+
   render() {
     return (
       <View>
-        <Text
-          style={styles.text}
-          >Welcome to the punting App
-        </Text>
+        <View style={styles.headerSpace}/>
         <TouchableHighlight
         style={styles.button}
         onPress={this.loadBookmakers.bind(this)}
         underlayColor="white">
-        <Text style={styles.buttonText}> Bookmakers </Text>
+        <Text style={styles.buttonText}>Bookmakers</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+        style={styles.button}
+        onPress={this.displayTodaysBets.bind(this)}
+        underlayColor="white">
+        <Text style={styles.buttonText}>Todays Bets</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+        style={styles.button}
+        onPress={this.displayHoldingFigure.bind(this)}
+        underlayColor="white">
+        <Text style={styles.buttonText}>Holding Figure</Text>
         </TouchableHighlight>
       </View>
     );
@@ -82,23 +99,28 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    height: 45,
+    height: 80,
     flexDirection: 'row',
     backgroundColor: 'white',
     borderColor: 'blue',
-    borderWidth: 1,
+    borderWidth: 2,
+    padding: 10,
     borderRadius: 8,
     marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 20,
+    marginRight: 20,
     marginTop: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 25,
     color: '#111',
     alignSelf: 'center'
+  },
+  headerSpace: {
+    height: 80,
+    backgroundColor: 'white'
   },
 });
 
