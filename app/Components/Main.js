@@ -13,71 +13,6 @@ import ReactNative, {
 var api = require('../Utils/api');
 var Bookmakers = require('./Bookmakers')
 
-class Main extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      isLoading: false,
-      error: false
-    }
-  }
-
-  loadBookmakers() {
-    this.setState({ isLoading: true });
-    var url = "http://localhost:3000/api/v1/bookmakers";
-    api.getBookmakers()
-      .then(json => this.displayBookmakers(json))
-      .catch(error =>
-        this.setState({
-          isLoading: false,
-          message: 'Something went wrong' + error
-        }));
-  }
-
-  displayBookmakers(response) {
-    this.setState({ isLoading: false , message: '' });
-    this.props.navigator.push({
-      title: 'Bookmakers',
-      component: Bookmakers,
-      passProps: {bookmakers: response}
-    });
-  }
-
-  displayTodaysBets() {
-  
-  }
-
-  displayHoldingFigure() {
-  
-  }
-
-  render() {
-    return (
-      <View>
-        <View style={styles.headerSpace}/>
-        <TouchableHighlight
-        style={styles.button}
-        onPress={this.loadBookmakers.bind(this)}
-        underlayColor="white">
-        <Text style={styles.buttonText}>Bookmakers</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-        style={styles.button}
-        onPress={this.displayTodaysBets.bind(this)}
-        underlayColor="white">
-        <Text style={styles.buttonText}>Todays Bets</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-        style={styles.button}
-        onPress={this.displayHoldingFigure.bind(this)}
-        underlayColor="white">
-        <Text style={styles.buttonText}>Holding Figure</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -123,5 +58,78 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
 });
+
+class Main extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoading: false,
+      error: false
+    }
+  }
+
+  loadBookmakers() {
+    this.setState({ isLoading: true });
+    var url = "http://localhost:3000/api/v1/bookmakers";
+    api.getBookmakers()
+      .then(json => this.displayBookmakers(json))
+      .catch(error =>
+        this.setState({
+          isLoading: false,
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  displayBookmakers(response) {
+    this.setState({ isLoading: false , message: '' });
+    this.props.navigator.push({
+      title: 'Bookmakers',
+      component: Bookmakers,
+      passProps: {bookmakers: response}
+    });
+  }
+
+  displayTodaysBets() {
+  
+  }
+
+  displayHoldingFigure() {
+  
+  }
+
+  render() {
+    var showErr = (
+      this.state.error ? <Text>{this.state.error} </Text> : <View></View>
+    );
+    return (
+      <View>
+        <View style={styles.headerSpace}/>
+        <TouchableHighlight
+        style={styles.button}
+        onPress={this.loadBookmakers.bind(this)}
+        underlayColor="white">
+        <Text style={styles.buttonText}>Bookmakers</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+        style={styles.button}
+        onPress={this.displayTodaysBets.bind(this)}
+        underlayColor="white">
+        <Text style={styles.buttonText}>Todays Bets</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+        style={styles.button}
+        onPress={this.displayHoldingFigure.bind(this)}
+        underlayColor="white">
+        <Text style={styles.buttonText}>Holding Figure</Text>
+        </TouchableHighlight>
+        <ActivityIndicatorIOS
+          animating={this.state.isLoading}
+          color="#111"
+          size="large"></ActivityIndicatorIOS>
+        {showErr}
+      </View>
+    );
+  }
+}
 
 module.exports = Main;

@@ -20,9 +20,7 @@ var styles = StyleSheet.create({
   eachWaySelect: {
     height: 40,
     padding: 10,
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
+    margin: 20,
     flex: 4,
     borderWidth: 1,
     borderColor: '#48BBEC',
@@ -46,6 +44,7 @@ var styles = StyleSheet.create({
   text: {
     color: 'black',
     backgroundColor: 'white',
+    textAlign: 'center',
     fontSize: 30,
     marginLeft: 20,
     marginRight: 20
@@ -124,6 +123,7 @@ class Betaction extends Component {
           style={styles.text}
           >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name }
         </Text>
+        <View style={styles.separator}/>
         <TouchableHighlight
           style={styles.button}
           onPress={this.fullStakesReturned.bind(this)}

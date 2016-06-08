@@ -68,12 +68,10 @@ class Bookmakers extends Component {
   }
 
   rowPressed(bookmaker) {
-    this.setState({ isLoading: true });
     api.getBookmakerData(bookmaker.id)
       .then(json => this.displayBetRequests(json, bookmaker))
       .catch(error =>
         this.setState({
-          isLoading: false,
           message: 'Something went wrong' + error
         }));
   }
@@ -94,7 +92,7 @@ class Bookmakers extends Component {
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
         />
-      );
+    );
   }
 
 }
