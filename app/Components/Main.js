@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     height: 80,
     flexDirection: 'row',
     backgroundColor: 'white',
-    borderColor: 'blue',
+    borderColor: '#007AFF',
     borderWidth: 2,
     padding: 10,
     borderRadius: 8,
@@ -70,7 +70,6 @@ class Main extends Component {
 
   loadBookmakers() {
     this.setState({ isLoading: true });
-    var url = "http://localhost:3000/api/v1/bookmakers";
     api.getBookmakers()
       .then(json => this.displayBookmakers(json))
       .catch(error =>
@@ -81,7 +80,7 @@ class Main extends Component {
   }
 
   displayBookmakers(response) {
-    this.setState({ isLoading: false , message: '' });
+    this.setState({ isLoading: false, message: '' });
     this.props.navigator.push({
       title: 'Bookmakers',
       component: Bookmakers,

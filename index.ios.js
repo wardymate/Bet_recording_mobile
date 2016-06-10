@@ -13,7 +13,7 @@ import ReactNative, {
   View
 } from 'react-native';
 
-var Main = require('./app/Components/Main');
+var SignIn = require('./app/Components/SignIn');
 
 class HelloWorld extends Component {
   render() {
@@ -29,8 +29,8 @@ class PuntingApp extends Component {
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
-          title: 'Punting App',
-          component: Main,
+          title: 'Log in',
+          component: SignIn
         }}/>
     );
   }

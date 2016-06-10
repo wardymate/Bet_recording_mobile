@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
   },
   selection: {
     fontSize: 25,
-    color: '#0000ff'
+    color: '#007AFF'
   },
   bet: {
     fontSize: 25,

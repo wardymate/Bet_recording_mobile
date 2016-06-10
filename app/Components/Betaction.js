@@ -61,7 +61,7 @@ var styles = StyleSheet.create({
     height: 80,
     flexDirection: 'row',
     backgroundColor: 'white',
-    borderColor: 'blue',
+    borderColor: '#007AFF',
     borderWidth: 2,
     padding: 10,
     borderRadius: 8,
