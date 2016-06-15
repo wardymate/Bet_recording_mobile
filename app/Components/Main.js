@@ -84,7 +84,11 @@ class Main extends Component {
     this.props.navigator.push({
       title: 'Bookmakers',
       component: Bookmakers,
-      passProps: {bookmakers: response}
+      passProps: {
+        bookmakers: response,
+        token: this.props.token,
+        userId: this.props.userId
+      }
     });
   }
 

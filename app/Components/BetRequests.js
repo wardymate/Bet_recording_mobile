@@ -8,6 +8,7 @@ import ReactNative, {
   ListView,
   Text
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Foundation';
 
 var Betaction = require('./Betaction');
 
@@ -75,9 +76,21 @@ class BetRequests extends Component {
    }
   }
 
+  isBetAlreadyPlaced(rowData) {
+    var userId = this.props.userId;
+    var selectionBets = rowData.selection.bets.filter(function(bet) { return bet.user_id === userId}).length;
+    if(selectionBets > 0) {
+      return <Icon name="ticket" size={25} color="#4cd964" />
+    } else {
+    <View></View>
+    }
+  }
+
+
   renderRow(rowData, sectionID, rowID) {
     var fractionPrice = this.fetchPrice(rowData.price);
     var ewText = this.eachWayText(rowData.each_way);
+    var showBetIcon = this.isBetAlreadyPlaced(rowData);
     return (
       <TouchableHighlight onPress={() => this.rowPressed(rowData)}
         underlayColor='#dddddd'>
@@ -86,7 +99,7 @@ class BetRequests extends Component {
             <View style={styles.textContainer}>
               <Text style={styles.selection}>{rowData.selection.name} {rowData.selection.event_name} {rowData.selection.event.meeting.name }</Text>
               <Text style={styles.bet}
-                numberOfLines={1}>£{rowData.amount} {ewText} at {fractionPrice}</Text>
+                numberOfLines={1}>£{rowData.amount} {ewText} at {fractionPrice} {showBetIcon}</Text>
               <Text style={styles.bet}
                 numberOfLines={1}>{rowData.comment}</Text>
             </View>
@@ -104,7 +117,8 @@ class BetRequests extends Component {
       passProps: {
         request: betRequest,
         fractionPrice: this.fetchPrice(betRequest.price),
-        ewText: this.eachWayText(betRequest.each_way)
+        ewText: this.eachWayText(betRequest.each_way),
+        token: this.props.token
       }
     });
   }

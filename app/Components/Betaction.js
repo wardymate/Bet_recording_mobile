@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import ReactNative, {
   StyleSheet,
   View,
+  Alert,
   TouchableHighlight,
   Text,
   SegmentedControlIOS,
@@ -104,7 +105,16 @@ class Betaction extends Component {
   }
 
   fullStakesReturned() {
-  
+    api.confirmBetRequest(this.state.request, this.props.token)
+    .then(json => this.confirmationFullStakes(json))
+    .catch(error =>
+        this.setState({
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  confirmationFullStakes(response) {
+    this.props.navigator.pop();
   }
   
   onOtherAmountChanged(event) {
@@ -113,7 +123,6 @@ class Betaction extends Component {
 
   render() {
     var request = this.state.request;
-    console.log(request);
     var fractionPrice = this.state.fractionPrice;
     var ewText = this.state.ewText;
     return (
@@ -126,7 +135,14 @@ class Betaction extends Component {
         <View style={styles.separator}/>
         <TouchableHighlight
           style={styles.button}
-          onPress={this.fullStakesReturned.bind(this)}
+          onPress={()=>Alert.alert(
+            'Confirm Full Stakes Placed',
+            'You are confirming that you have placed full requested stakes',
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              {text: 'OK', onPress: this.fullStakesReturned.bind(this)}
+            ]
+            )}
           underlayColor="white">
           <Text style={styles.buttonText}>Confirm £{request.amount} {ewText} at {fractionPrice} </Text>
         </TouchableHighlight>

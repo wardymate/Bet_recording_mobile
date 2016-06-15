@@ -97,7 +97,7 @@ class SignIn extends Component {
       this.props.navigator.push({
         title: 'Menu',
         component: Main,
-        passProps: {token: response.token}
+        passProps: { token: response.auth_token, userId: response.id }
     });
     }
   }

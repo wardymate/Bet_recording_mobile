@@ -20,11 +20,22 @@ var api = {
       password: password
     };
     var data = JSON.stringify( payload );
-    return fetch(url, { method: "POST", headers: headers, body: data} ).then(res => res.json())
+    return fetch(url, { method: "POST", headers: headers, body: data} )
+      .then(res => res.json())
   },
 
-  confirmBetRequest(betRequest) {
- 
+  confirmBetRequest(betRequest, token) {
+    var url = "http://localhost:3000/api/v1/bet_requests/confirm";
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var payload = {
+      betRequest: betRequest.id,
+      token: token
+    }
+    var data = JSON.stringify( payload );
+    return fetch(url, { method: "POST", headers: headers, body: data} ).then(res => res.json())
   }
 
 };

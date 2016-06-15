@@ -81,7 +81,11 @@ class Bookmakers extends Component {
     this.props.navigator.push({
       title: bookmaker.name + ' Bets',
       component: BetRequests,
-      passProps: {requests: response}
+      passProps: {
+        requests: response,
+        token: this.props.token,
+        userId: this.props.userId
+      }
     });
   }
 
