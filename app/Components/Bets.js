@@ -9,10 +9,6 @@ import ReactNative, {
   Text
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Foundation';
-
-var Betaction = require('./Betaction');
-
 var styles = StyleSheet.create({
   textContainer: {
     flex: 1
@@ -35,13 +31,13 @@ var styles = StyleSheet.create({
   }
 });
 
-class BetRequests extends Component {
+class Bets extends Component {
   constructor(props) {
     super(props);
     var dataSource = new ListView.DataSource(
       {rowHasChanged: (r1, r2) => r1.guid !== r2.guid});
     this.state = {
-      dataSource: dataSource.cloneWithRows(this.props.requests)
+      dataSource: dataSource.cloneWithRows(this.props.bets)
     };
   }
 
@@ -77,22 +73,10 @@ class BetRequests extends Component {
    }
   }
 
-  betAlreadyPlaced(rowData) {
-    var userId = this.props.userId;
-    var selectionBets = rowData.selection.bets.filter(function(bet) { return bet.user_id === userId});
-    var priceBets = selectionBets.filter(function(bet) {return bet.price >= rowData.price});
-    if(priceBets.length > 0) {
-      return <Icon name="ticket" size={25} color="#4cd964" />
-    } else {
-    <View></View>
-    }
-  }
-
-
   renderRow(rowData, sectionID, rowID) {
+    var poundsAmount = (rowData.amount)/100;
     var fractionPrice = this.fetchPrice(rowData.price);
     var ewText = this.eachWayText(rowData.each_way);
-    var showBetIcon = this.betAlreadyPlaced(rowData);
     return (
       <TouchableHighlight onPress={() => this.rowPressed(rowData)}
         underlayColor='#dddddd'>
@@ -101,7 +85,7 @@ class BetRequests extends Component {
             <View style={styles.textContainer}>
               <Text style={styles.selection}>{rowData.selection.name} {rowData.selection.event_name} {rowData.selection.event.meeting.name }</Text>
               <Text style={styles.bet}
-                numberOfLines={1}>£{rowData.amount} {ewText} at {fractionPrice} {showBetIcon}</Text>
+                numberOfLines={1}>£{poundsAmount} {ewText} at {fractionPrice}</Text>
               <Text style={styles.bet}
                 numberOfLines={1}>{rowData.comment}</Text>
             </View>
@@ -112,17 +96,16 @@ class BetRequests extends Component {
     );
   }
 
-  rowPressed(betRequest) {
-    this.props.navigator.push({
-      title: betRequest.selection.name + ' response',
-      component: Betaction,
-      passProps: {
-        request: betRequest,
-        fractionPrice: this.fetchPrice(betRequest.price),
-        ewText: this.eachWayText(betRequest.each_way),
-        token: this.props.token
-      }
-    });
+  rowPressed(bet) {
+    // this.props.navigator.push({
+    //   title: betRequest.selection.name + ' response',
+    //   component: Bet,
+    //   passProps: {
+    //     request: bet,
+    //     fractionPrice: this.fetchPrice(betRequest.price),
+    //     token: this.props.token
+    //   }
+    // });
   }
 
   render() {
@@ -136,4 +119,4 @@ class BetRequests extends Component {
 
 }
 
-module.exports = BetRequests;
+module.exports = Bets;

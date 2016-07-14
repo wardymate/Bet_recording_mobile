@@ -12,6 +12,7 @@ import ReactNative, {
 
 var api = require('../Utils/api');
 var Bookmakers = require('./Bookmakers')
+var Bets = require('./Bets')
 
 const styles = StyleSheet.create({
   container: {
@@ -92,7 +93,30 @@ class Main extends Component {
     });
   }
 
-  displayTodaysBets() {
+  loadTodaysBets() {
+    console.log(this.props.token);
+    this.setState({ isLoading: true });
+    api.getBets(this.props.token)
+      .then(json => this.displayTodaysBets(json))
+      .catch(error =>
+        this.setState({
+          isLoading: false,
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  displayTodaysBets(response) {
+    console.log(response);
+    this.setState({ isLoading: false, message: '' });
+    this.props.navigator.push({
+      title: 'Todays Bets',
+      component: Bets,
+      passProps: {
+        bets: response,
+        token: this.props.token,
+        userId: this.props.userId
+      }
+    });
   
   }
 
@@ -115,7 +139,7 @@ class Main extends Component {
         </TouchableHighlight>
         <TouchableHighlight
         style={styles.button}
-        onPress={this.displayTodaysBets.bind(this)}
+        onPress={this.loadTodaysBets.bind(this)}
         underlayColor="white">
         <Text style={styles.buttonText}>Todays Bets</Text>
         </TouchableHighlight>

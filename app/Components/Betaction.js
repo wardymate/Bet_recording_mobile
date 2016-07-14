@@ -100,25 +100,57 @@ class Betaction extends Component {
       request: this.props.request,
       fractionPrice: this.props.fractionPrice,
       ewText: this.props.ewText,
+      ewOptions: ['Win', 'Each Way', 'Half Place'],
       otherAmount: '' 
     }
   }
 
   fullStakesReturned() {
-    api.confirmBetRequest(this.state.request, this.props.token)
-    .then(json => this.confirmationFullStakes(json))
+    api.confirmBetRequest(this.state.request, this.props.token, 'placed', {})
+    .then(json => this.redirectToBetRequests(json))
     .catch(error =>
         this.setState({
           message: 'Something went wrong' + error
         }));
   }
 
-  confirmationFullStakes(response) {
-    this.props.navigator.pop();
+  spOnly() {
+    api.confirmBetRequest(this.state.request, this.props.token, 'sp', {})
+    .then(json => this.redirectToBetRequests(json))
+    .catch(error =>
+        this.setState({
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  priceChanged() {
+    api.confirmBetRequest(this.state.request, this.props.token, 'change', {})
+    .then(json => this.redirectToBetRequests(json))
+    .catch(error =>
+        this.setState({
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  partialStakesReturned() {
+    var options = {
+      amount: this.state.otherAmount,
+      eachWay: this.state.ewOptions[this.state.selectedIndex] 
+    }
+    api.confirmBetRequest(this.state.request, this.props.token, 'partial', options)
+    .then(json => this.redirectToBetRequests(json))
+    .catch(error =>
+        this.setState({
+          message: 'Something went wrong' + error
+        }));
   }
   
   onOtherAmountChanged(event) {
     this.setState({ otherAmount: event.nativeEvent.text });
+  }
+
+  redirectToBetRequests(response) {
+    this.props.navigator.pop();
   }
 
   render() {
@@ -148,13 +180,27 @@ class Betaction extends Component {
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.button}
-          onPress={this.fullStakesReturned.bind(this)}
+          onPress={()=>Alert.alert(
+            'Confirm that the price has changed',
+            'You are confirming that the price has changed',
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              {text: 'OK', onPress: this.priceChanged.bind(this)}
+            ]
+            )}
           underlayColor="white">
           <Text style={styles.buttonText}>Price Changed</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.button}
-          onPress={this.fullStakesReturned.bind(this)}
+          onPress={()=>Alert.alert(
+            'Confirm SP only offered',
+            'You are confirming that you were offered SP only on this selection',
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              {text: 'OK', onPress: this.spOnly.bind(this)}
+            ]
+            )}
           underlayColor="white">
           <Text style={styles.buttonText}>SP Only</Text>
         </TouchableHighlight>
@@ -162,11 +208,12 @@ class Betaction extends Component {
         <TextInput
           style={styles.otherAmountInput}
           value={this.state.otherAmount}
+          keyboardType="numeric"
           onChange={this.onOtherAmountChanged.bind(this)}
           placeholder='Enter Different Amount'/>
         <SegmentedControlIOS
           style={styles.eachWaySelect}
-          values={['Win', 'Each Way', 'Half Place']}
+          values={this.state.ewOptions}
           selectedIndex={this.state.selectedIndex}
           onChange={(event) => {
             this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
@@ -174,7 +221,7 @@ class Betaction extends Component {
         />
         <TouchableHighlight
           style={styles.button}
-          onPress={this.fullStakesReturned.bind(this)}
+          onPress={this.partialStakesReturned.bind(this)}
           underlayColor="white">
           <Text style={styles.buttonText}>Confirm Reduced Stakes</Text>
         </TouchableHighlight>

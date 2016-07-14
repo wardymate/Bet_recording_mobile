@@ -7,8 +7,8 @@ import ReactNative, {
   TextInput,
   Text,
   View,
-  ActivityIndicatorIOS,
-  TouchableHighlight
+  TouchableHighlight,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 var api = require('../Utils/api');
@@ -121,13 +121,14 @@ class SignIn extends Component {
           style={styles.textInput}
           value={this.state.password}
           onChange={this.onPasswordChanged.bind(this)}
+          secureTextEntry={true}
           placeholder='Password'/>
         <View style={styles.headerSpace}/>
         <TouchableHighlight
-        style={styles.button}
-        onPress={this.requestLogin.bind(this)}
-        underlayColor="white">
-        <Text style={styles.buttonText}>Login</Text>
+          style={styles.button}
+          onPress={this.requestLogin.bind(this)}
+          underlayColor="white">
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
         <ActivityIndicatorIOS
           animating={this.state.isLoading}
