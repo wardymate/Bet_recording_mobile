@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   Navigator,
+  TouchableHighlight,
   View
 } from 'react-native';
 

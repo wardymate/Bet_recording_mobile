@@ -6,8 +6,8 @@ import ReactNative, {
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
   ActivityIndicatorIOS,
-  TouchableHighlight
 } from 'react-native';
 
 var api = require('../Utils/api');
