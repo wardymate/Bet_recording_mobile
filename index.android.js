@@ -57,13 +57,31 @@ var NavigationBarRouteMapper = {
         </TouchableHighlight> )
   },
   Title(route, navigator, index, navState) {
-    return <Text style={ styles.title }>MY APP TITLE</Text>
+    return <Text style={ styles.title }></Text>
   }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  leftNavButtonText: {
+    fontSize: 18,
+    marginLeft:13,
+    marginTop:2
+    },
+  rightNavButtonText: {
+    fontSize: 18,
+    marginRight:13,
+    marginTop:2
+  },
+  nav: {
+    height: 30,
+    backgroundColor: '#efefef'
+  },
+  title: {
+    marginTop:4,
+    fontSize:16
   },
   text: {
     color: 'black',

@@ -7,7 +7,6 @@ import ReactNative, {
   Alert,
   TouchableHighlight,
   Text,
-  SegmentedControlIOS,
   TextInput,
   ActivityIndicatorIOS
 } from 'react-native';
@@ -28,7 +27,7 @@ var styles = StyleSheet.create({
     borderRadius: 8
   },
   headerSpace: {
-    height: 80,
+    height: 30,
     backgroundColor: 'white'
   },
   separator: {
@@ -50,13 +49,22 @@ var styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20
   },
+  smallText: {
+    color: 'black',
+    textAlign: 'center',
+    fontSize: 20,
+  },
   title: {
     fontSize: 20,
     color: '#656565'
   },
   rowContainer: {
+    height: 60,
     flexDirection: 'row',
-    padding: 20
+    padding: 20,
+    marginBottom: 20,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
   button: {
     height: 80,
@@ -72,6 +80,26 @@ var styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
+  },
+  miniButton: {
+    height: 35,
+    flex: 1,
+    padding: 2,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderColor: '#007AFF',
+    borderWidth: 2,
+    borderRadius: 8,
+  },
+  miniButtonSelected: {
+    height: 35,
+    flex: 1,
+    padding: 2,
+    flexDirection: 'column',
+    backgroundColor: '#48BBEC',
+    borderColor: '#007AFF',
+    borderWidth: 2,
+    borderRadius: 8,
   },
   buttonText: {
     fontSize: 25,
@@ -101,7 +129,8 @@ class Betaction extends Component {
       fractionPrice: this.props.fractionPrice,
       ewText: this.props.ewText,
       ewOptions: ['Win', 'Each Way', 'Half Place'],
-      otherAmount: '' 
+      otherAmount: '',
+      otherEW: ''
     }
   }
 
@@ -135,7 +164,7 @@ class Betaction extends Component {
   partialStakesReturned() {
     var options = {
       amount: this.state.otherAmount,
-      eachWay: this.state.ewOptions[this.state.selectedIndex] 
+      eachWay: this.state.otherEW
     }
     api.confirmBetRequest(this.state.request, this.props.token, 'partial', options)
     .then(json => this.redirectToBetRequests(json))
@@ -152,17 +181,39 @@ class Betaction extends Component {
   redirectToBetRequests(response) {
     this.props.navigator.pop();
   }
+  
+  styleOption(option) {
+    if(this.state.otherEW == option) {
+      return styles.miniButtonSelected;
+    } else {
+      return styles.miniButton;
+    }
+  }
+
+  setWin() {
+    this.setState({ otherEW: 'Win'});
+  }
+
+  setEachWay() {
+    this.setState({ otherEW: 'Each Way'});
+  }
+
+  setHalfPlace() {
+    this.setState({ otherEW: 'Half Place'});
+  }
 
   render() {
     var request = this.state.request;
     var fractionPrice = this.state.fractionPrice;
     var ewText = this.state.ewText;
+    var winStyle = this.styleOption('Win');
+    var halfPlaceStyle = this.styleOption('Half Place');
+    var eachWayStyle = this.styleOption('Each Way');
+    var alternateAlertMessage = 'You are confirming that you have placed £' + this.state.otherAmount + ' ' + this.state.otherEW + ' on this selection';
+
     return (
       <View>
         <View style={styles.headerSpace}/>
-        <Text
-          style={styles.text}
-          >Android Version        </Text>
         <Text
           style={styles.text}
           >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name }
@@ -214,17 +265,36 @@ class Betaction extends Component {
           keyboardType="numeric"
           onChange={this.onOtherAmountChanged.bind(this)}
           placeholder='Enter Different Amount'/>
-        <SegmentedControlIOS
-          style={styles.eachWaySelect}
-          values={this.state.ewOptions}
-          selectedIndex={this.state.selectedIndex}
-          onChange={(event) => {
-            this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-          }}
-        />
+        <View style={styles.rowContainer}>
+          <TouchableHighlight
+            style={winStyle}
+            onPress={this.setWin.bind(this)}
+            underlayColor="white">
+            <Text style={styles.smallText}>Win   </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={eachWayStyle}
+            onPress={this.setEachWay.bind(this)}
+            underlayColor="white">
+            <Text style={styles.smallText}>Each Way</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={halfPlaceStyle}
+            onPress={this.setHalfPlace.bind(this)}
+            underlayColor="white">
+            <Text style={styles.smallText}>    Half Place</Text>
+          </TouchableHighlight>
+        </View>
         <TouchableHighlight
           style={styles.button}
-          onPress={this.partialStakesReturned.bind(this)}
+          onPress={()=>Alert.alert(
+            'Confirm alternate amount placed',
+            alternateAlertMessage,
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              {text: 'OK', onPress: this.partialStakesReturned.bind(this)}
+            ]
+            )}
           underlayColor="white">
           <Text style={styles.buttonText}>Confirm Reduced Stakes</Text>
         </TouchableHighlight>

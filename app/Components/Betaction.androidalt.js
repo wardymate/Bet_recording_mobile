@@ -13,6 +13,7 @@ import ReactNative, {
 } from 'react-native';
 
 var api = require('../Utils/api');
+var AnimatedSegmentedControl = require('./AnimatedSegmentedControl');
 
 var styles = StyleSheet.create({
   textContainer: {
@@ -101,7 +102,15 @@ class Betaction extends Component {
       fractionPrice: this.props.fractionPrice,
       ewText: this.props.ewText,
       ewOptions: ['Win', 'Each Way', 'Half Place'],
-      otherAmount: '' 
+      otherAmount: '',
+      items: [
+      { label: 'Item1', checked: true },
+      { label: 'Item2', checked: true },
+      { label: 'Item3', checked: true },
+      { label: 'Item4', checked: true },
+      { label: 'Item5', checked: true },
+      { label: 'Item6', checked: true },
+      ]
     }
   }
 
@@ -162,6 +171,9 @@ class Betaction extends Component {
         <View style={styles.headerSpace}/>
         <Text
           style={styles.text}
+          >Android Version        </Text>
+        <Text
+          style={styles.text}
           >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name }
         </Text>
         <View style={styles.separator}/>
@@ -211,13 +223,26 @@ class Betaction extends Component {
           keyboardType="numeric"
           onChange={this.onOtherAmountChanged.bind(this)}
           placeholder='Enter Different Amount'/>
-        <SegmentedControlIOS
-          style={styles.eachWaySelect}
-          values={this.state.ewOptions}
-          selectedIndex={this.state.selectedIndex}
-          onChange={(event) => {
-            this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-          }}
+            <AnimatedSegmentedControl
+            style={styles.control}
+          borderWidth={1}
+          borderRadius={20}
+          borderColor="rgba(229,163,48,1)"
+            backgroundColor="rgba(229,163,48,1)"
+            textColor="#fff"
+            textPadding={10}
+          selectedBackgroundColor="#fff"
+            selectedTextColor="rgba(229,163,48,1)"
+            values={items.filter((item) => item.checked).map((item) => item.label)}
+          />
+            
+        // <SegmentedControlIOS
+        //   style={styles.eachWaySelect}
+        //   values={this.state.ewOptions}
+        //   selectedIndex={this.state.selectedIndex}
+        //   onChange={(event) => {
+        //     this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+        //   }}
         />
         <TouchableHighlight
           style={styles.button}

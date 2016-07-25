@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   headerSpace: {
-    height: 80,
+    height: 40,
     backgroundColor: 'white'
   },
 });
@@ -94,7 +94,6 @@ class Main extends Component {
   }
 
   loadTodaysBets() {
-    console.log(this.props.token);
     this.setState({ isLoading: true });
     api.getBets(this.props.token)
       .then(json => this.displayTodaysBets(json))
@@ -106,7 +105,6 @@ class Main extends Component {
   }
 
   displayTodaysBets(response) {
-    console.log(response);
     this.setState({ isLoading: false, message: '' });
     this.props.navigator.push({
       title: 'Todays Bets',
