@@ -1,5 +1,6 @@
 // var baseUrl = "http://localhost:3000";
-var baseUrl = "http://192.168.1.185:3000";
+// var baseUrl = "http://192.168.1.185:3000";
+var baseUrl = "https://punting-staging.herokuapp.com";
 
 var api = {
   getBookmakers() {
@@ -26,7 +27,7 @@ var api = {
     var url = baseUrl + "/api/v1/sessions";
     var headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded'
     };
     var payload = {
       email: email,
@@ -41,7 +42,7 @@ var api = {
     var url = baseUrl + "/api/v1/bet_requests/confirm";
     var headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded'
     };
     var payload = {
       betRequest: betRequest.id,
