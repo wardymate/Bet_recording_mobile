@@ -1,6 +1,6 @@
 // var baseUrl = "http://localhost:3000";
-// var baseUrl = "http://192.168.1.185:3000";
-var baseUrl = "https://punting-staging.herokuapp.com";
+var baseUrl = "http://192.168.1.66:3000";
+// var baseUrl = "https://punting-staging.herokuapp.com";
 
 var api = {
   getBookmakers() {
