@@ -96,13 +96,10 @@ class Bookmakers extends Component {
 
   render() {
     return (
-      <View>
-        <View style={styles.headerSpace}/>
-        <ListView
+      <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
-        />
-    </View>
+      />
     );
   }
 

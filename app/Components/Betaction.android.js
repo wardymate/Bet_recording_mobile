@@ -222,19 +222,6 @@ class Betaction extends Component {
         <TouchableHighlight
           style={styles.button}
           onPress={()=>Alert.alert(
-            'Confirm Full Stakes Placed',
-            'You are confirming that you have placed full requested stakes',
-            [
-              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
-              {text: 'OK', onPress: this.fullStakesReturned.bind(this)}
-            ]
-            )}
-          underlayColor="white">
-          <Text style={styles.buttonText}>Confirm £{request.amount} {ewText} at {fractionPrice} </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.button}
-          onPress={()=>Alert.alert(
             'Confirm that the price has changed',
             'You are confirming that the price has changed',
             [
@@ -264,13 +251,13 @@ class Betaction extends Component {
           value={this.state.otherAmount}
           keyboardType="numeric"
           onChange={this.onOtherAmountChanged.bind(this)}
-          placeholder='Enter Different Amount'/>
+          placeholder='Enter Amount'/>
         <View style={styles.rowContainer}>
           <TouchableHighlight
             style={winStyle}
             onPress={this.setWin.bind(this)}
             underlayColor="white">
-            <Text style={styles.smallText}>Win   </Text>
+            <Text style={styles.smallText}>Win</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={eachWayStyle}
@@ -282,13 +269,13 @@ class Betaction extends Component {
             style={halfPlaceStyle}
             onPress={this.setHalfPlace.bind(this)}
             underlayColor="white">
-            <Text style={styles.smallText}>    Half Place</Text>
+            <Text style={styles.smallText}>Half Place</Text>
           </TouchableHighlight>
         </View>
         <TouchableHighlight
           style={styles.button}
           onPress={()=>Alert.alert(
-            'Confirm alternate amount placed',
+            'Confirm amount placed',
             alternateAlertMessage,
             [
               {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
@@ -296,7 +283,7 @@ class Betaction extends Component {
             ]
             )}
           underlayColor="white">
-          <Text style={styles.buttonText}>Confirm Reduced Stakes</Text>
+          <Text style={styles.buttonText}>Confirm Stakes Placed</Text>
         </TouchableHighlight>
       </View>
     );
