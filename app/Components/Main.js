@@ -13,6 +13,7 @@ import ReactNative, {
 var api = require('../Utils/api');
 var Bookmakers = require('./Bookmakers')
 var Bets = require('./Bets')
+var Transfers = require('./Transfers')
 
 const styles = StyleSheet.create({
   container: {
@@ -115,11 +116,30 @@ class Main extends Component {
         userId: this.props.userId
       }
     });
-  
   }
 
-  displayHoldingFigure() {
-  
+  loadHoldingFigure() {
+    this.setState({ isLoading: true });
+    api.getHoldingFigure(this.props.token)
+      .then(json => this.displayHoldingFigure(json))
+      .catch(error =>
+        this.setState({
+          isLoading: false,
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  displayHoldingFigure(response) {
+    this.setState({ isLoading: false, message: '' });
+    this.props.navigator.push({
+      title: 'Transfers',
+      component: Transfers,
+      passProps: {
+        transfers: response,
+        token: this.props.token,
+        userId: this.props.userId
+      }
+    });
   }
 
   render() {
@@ -143,7 +163,7 @@ class Main extends Component {
         </TouchableHighlight>
         <TouchableHighlight
         style={styles.button}
-        onPress={this.displayHoldingFigure.bind(this)}
+        onPress={this.loadHoldingFigure.bind(this)}
         underlayColor="white">
         <Text style={styles.buttonText}>Holding Figure</Text>
         </TouchableHighlight>

@@ -1,6 +1,6 @@
-// var baseUrl = "http://localhost:3000";
-// var baseUrl = "http://192.168.1.66:3000";
-var baseUrl = "https://punting-staging.herokuapp.com";
+var baseUrl = "http://localhost:3000";
+// var baseUrl = "http://192.168.1.185:3000";
+// var baseUrl = "https://punting-staging.herokuapp.com";
 
 var api = {
   getBookmakers() {
@@ -9,7 +9,7 @@ var api = {
   },
 
   getBets(token) {
-    var url = baseUrl + "/api/v1/bets?token=" + token ;
+    var url = baseUrl + "/api/v1/bets?token=" + token;
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -21,6 +21,16 @@ var api = {
   getBookmakerData(bookmakerId) {
     var url = baseUrl + "/api/v1/bet_requests?bookmakerId=" + bookmakerId;
       return fetch(url).then(res => res.json())
+  },
+
+  getHoldingFigure(token) {
+    var url = baseUrl + "/api/v1/holding_figures?token=" + token;
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    return fetch(url)
+      .then(res => res.json())
   },
 
   requestLogin(email, password) {
