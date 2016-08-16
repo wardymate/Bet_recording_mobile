@@ -9,7 +9,7 @@ import ReactNative, {
   Text,
   SegmentedControlIOS,
   TextInput,
-  ActivityIndicatorIOS
+  ActivityIndicator
 } from 'react-native';
 
 var api = require('../Utils/api');

@@ -17,6 +17,9 @@ var styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#dddddd'
   },
+  listView: {
+    marginTop: 20
+  },
   selection: {
     fontSize: 25,
     color: '#007AFF'
@@ -111,6 +114,7 @@ class Bets extends Component {
   render() {
     return (
       <ListView
+        style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
         />

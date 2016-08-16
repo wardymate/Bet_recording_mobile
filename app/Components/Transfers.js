@@ -13,6 +13,9 @@ var styles = StyleSheet.create({
   textContainer: {
     flex: 1
   },
+  listView: {
+    marginTop: 20
+  },
   separator: {
     height: 1,
     backgroundColor: '#dddddd'
@@ -77,6 +80,7 @@ class Transfers extends Component {
   render() {
     return (
       <ListView
+        style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
         />

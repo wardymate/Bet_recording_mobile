@@ -6,9 +6,10 @@ import ReactNative, {
   StyleSheet,
   TextInput,
   Text,
+  ScrollView,
   View,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicator
 } from 'react-native';
 
 var api = require('../Utils/api');
@@ -107,8 +108,7 @@ class SignIn extends Component {
       this.state.message ? <Text style={styles.buttonText}>{this.state.message}</Text> : <View></View>
     );
     return (
-      <View>
-        <View style={styles.headerSpace}/>
+      <ScrollView>
         <View style={styles.headerSpace}/>
         <View style={styles.headerSpace}/>
         <TextInput
@@ -123,19 +123,18 @@ class SignIn extends Component {
           onChange={this.onPasswordChanged.bind(this)}
           secureTextEntry={true}
           placeholder='Password'/>
-        <View style={styles.headerSpace}/>
         <TouchableHighlight
           style={styles.button}
           onPress={this.requestLogin.bind(this)}
           underlayColor="white">
           <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
-        <ActivityIndicatorIOS
+        <ActivityIndicator
           animating={this.state.isLoading}
           color="#111"
-          size="large"></ActivityIndicatorIOS>
+          size="large"></ActivityIndicator>
         {showErr}
-      </View>
+      </ScrollView>
     );
   }
 }

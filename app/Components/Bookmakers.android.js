@@ -18,6 +18,9 @@ var styles = StyleSheet.create({
     height: 80,
     marginRight: 10
   },
+  listView: {
+    marginTop: 20
+  },
   textContainer: {
     flex: 1
   },
@@ -97,6 +100,7 @@ class Bookmakers extends Component {
   render() {
     return (
       <ListView
+        style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
       />

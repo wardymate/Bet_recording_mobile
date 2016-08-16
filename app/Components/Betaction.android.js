@@ -3,12 +3,13 @@
 import React, { Component } from 'react';
 import ReactNative, {
   StyleSheet,
+  ScrollView,
   View,
   Alert,
   TouchableHighlight,
   Text,
   TextInput,
-  ActivityIndicatorIOS
+  ActivityIndicator
 } from 'react-native';
 
 var api = require('../Utils/api');
@@ -212,7 +213,7 @@ class Betaction extends Component {
     var alternateAlertMessage = 'You are confirming that you have placed £' + this.state.otherAmount + ' ' + this.state.otherEW + ' on this selection';
 
     return (
-      <View>
+      <ScrollView>
         <View style={styles.headerSpace}/>
         <Text
           style={styles.text}
@@ -285,7 +286,7 @@ class Betaction extends Component {
           underlayColor="white">
           <Text style={styles.buttonText}>Confirm Stakes Placed</Text>
         </TouchableHighlight>
-      </View>
+      </ScrollView>
     );
   }
 

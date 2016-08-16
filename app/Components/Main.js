@@ -5,9 +5,10 @@ import ReactNative, {
   AppRegistry,
   StyleSheet,
   Text,
+  ScrollView,
   View,
   TouchableHighlight,
-  ActivityIndicatorIOS,
+  ActivityIndicator,
 } from 'react-native';
 
 var api = require('../Utils/api');
@@ -147,7 +148,7 @@ class Main extends Component {
       this.state.error ? <Text>{this.state.error} </Text> : <View></View>
     );
     return (
-      <View>
+      <ScrollView>
         <View style={styles.headerSpace}/>
         <TouchableHighlight
         style={styles.button}
@@ -167,12 +168,12 @@ class Main extends Component {
         underlayColor="white">
         <Text style={styles.buttonText}>Holding Figure</Text>
         </TouchableHighlight>
-        <ActivityIndicatorIOS
+        <ActivityIndicator
           animating={this.state.isLoading}
           color="#111"
-          size="large"></ActivityIndicatorIOS>
+          size="large"></ActivityIndicator>
         {showErr}
-      </View>
+      </ScrollView>
     );
   }
 }
