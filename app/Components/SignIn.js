@@ -95,12 +95,16 @@ class SignIn extends Component {
       });
     } else {
       this.setState({ isLoading: false });
-      this.props.navigator.push({
-        title: 'Menu',
-        component: Main,
-        passProps: { token: response.auth_token, userId: response.id }
-    });
+      this.loadMainPage(response);
     }
+  }
+
+  loadMainPage(response) {
+    this.props.navigator.push({
+      title: 'Menu',
+      component: Main,
+      passProps: { token: response.auth_token, userId: response.id }
+    });
   }
 
   render() {

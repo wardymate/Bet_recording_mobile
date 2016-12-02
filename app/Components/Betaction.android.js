@@ -180,7 +180,9 @@ class Betaction extends Component {
   }
 
   redirectToBetRequests(response) {
-    this.props.navigator.pop();
+    var routes = this.props.navigator.getCurrentRoutes();
+    var bookmakers = routes.filter(function(route) { return route.title === "Bookmakers" });
+    this.props.navigator.popToRoute(bookmakers[0]);
   }
   
   styleOption(option) {

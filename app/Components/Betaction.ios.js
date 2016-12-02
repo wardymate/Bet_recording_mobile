@@ -150,7 +150,7 @@ class Betaction extends Component {
   }
 
   redirectToBetRequests(response) {
-    this.props.navigator.pop();
+    this.props.navigator.popN(2);
   }
 
   render() {

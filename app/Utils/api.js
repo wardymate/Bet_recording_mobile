@@ -18,8 +18,8 @@ var api = {
       .then(res => res.json())
   },
 
-  getBookmakerData(bookmakerId) {
-    var url = baseUrl + "/api/v1/bet_requests?bookmakerId=" + bookmakerId;
+  getBookmakerData(bookmakerId, token) {
+    var url = baseUrl + "/api/v1/bet_requests?bookmakerId=" + bookmakerId +"&token=" + token ;
       return fetch(url).then(res => res.json())
   },
 

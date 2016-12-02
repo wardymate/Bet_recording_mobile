@@ -75,7 +75,7 @@ class Bookmakers extends Component {
   }
 
   rowPressed(bookmaker) {
-    api.getBookmakerData(bookmaker.id)
+    api.getBookmakerData(bookmaker.id, this.props.token)
       .then(json => this.displayBetRequests(json, bookmaker))
       .catch(error =>
         this.setState({
