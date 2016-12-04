@@ -6,6 +6,7 @@ import ReactNative, {
   ScrollView,
   View,
   Alert,
+  Picker,
   TouchableHighlight,
   Text,
   TextInput,
@@ -13,10 +14,15 @@ import ReactNative, {
 } from 'react-native';
 
 var api = require('../Utils/api');
+var priceKeys = require('../Utils/priceKeys');
 
 var styles = StyleSheet.create({
   textContainer: {
     flex: 1
+  },
+  picker: {
+    marginLeft: 150,
+    width: 100,
   },
   eachWaySelect: {
     height: 40,
@@ -127,6 +133,7 @@ class Betaction extends Component {
     this.state = {
       isLoading: false,
       request: this.props.request,
+      price: this.props.request.price,
       fractionPrice: this.props.fractionPrice,
       ewText: this.props.ewText,
       ewOptions: ['Win', 'Each Way', 'Half Place'],
@@ -165,7 +172,8 @@ class Betaction extends Component {
   partialStakesReturned() {
     var options = {
       amount: this.state.otherAmount,
-      eachWay: this.state.otherEW
+      eachWay: this.state.otherEW,
+      price: this.state.price
     }
     api.confirmBetRequest(this.state.request, this.props.token, 'partial', options)
     .then(json => this.redirectToBetRequests(json))
@@ -225,6 +233,19 @@ class Betaction extends Component {
         <TouchableHighlight
           style={styles.button}
           onPress={()=>Alert.alert(
+            'Confirm Full Stakes Placed',
+            'You are confirming that you have placed full requested stakes at the requested price',
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              {text: 'OK', onPress: this.fullStakesReturned.bind(this)}
+            ]
+            )}
+          underlayColor="white">
+          <Text style={styles.buttonText}>£{request.amount} {ewText} at {fractionPrice}</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={()=>Alert.alert(
             'Confirm that the price has changed',
             'You are confirming that the price has changed',
             [
@@ -275,6 +296,17 @@ class Betaction extends Component {
             <Text style={styles.smallText}>Half Place</Text>
           </TouchableHighlight>
         </View>
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.price.toString()}
+            onValueChange={(newPrice) => this.setState({price: newPrice})}>
+            { Object.keys(priceKeys).sort(function(a, b){return parseFloat(a)-parseFloat(b)}).map(function(key) {
+              return <Picker.Item
+                       key={key}
+                       value={key}
+                       label={priceKeys[key]} />
+            }) }
+          </Picker>
         <TouchableHighlight
           style={styles.button}
           onPress={()=>Alert.alert(

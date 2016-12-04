@@ -3,8 +3,10 @@
 import React, { Component } from 'react';
 import ReactNative, {
   StyleSheet,
+  ScrollView,
   View,
   Alert,
+  Picker,
   TouchableHighlight,
   Text,
   SegmentedControlIOS,
@@ -13,10 +15,15 @@ import ReactNative, {
 } from 'react-native';
 
 var api = require('../Utils/api');
+var priceKeys = require('../Utils/priceKeys');
 
 var styles = StyleSheet.create({
   textContainer: {
     flex: 1
+  },
+  picker: {
+    marginLeft: 150,
+    width: 100,
   },
   eachWaySelect: {
     height: 40,
@@ -99,9 +106,11 @@ class Betaction extends Component {
       isLoading: false,
       request: this.props.request,
       fractionPrice: this.props.fractionPrice,
+      price: this.props.request.price,
       ewText: this.props.ewText,
       ewOptions: ['Win', 'Each Way', 'Half Place'],
-      otherAmount: '' 
+      otherAmount: '',
+      selectedIndex: 0
     }
   }
 
@@ -135,7 +144,8 @@ class Betaction extends Component {
   partialStakesReturned() {
     var options = {
       amount: this.state.otherAmount,
-      eachWay: this.state.ewOptions[this.state.selectedIndex] 
+      eachWay: this.state.ewOptions[this.state.selectedIndex],
+      price: this.state.price
     }
     api.confirmBetRequest(this.state.request, this.props.token, 'partial', options)
     .then(json => this.redirectToBetRequests(json))
@@ -157,8 +167,9 @@ class Betaction extends Component {
     var request = this.state.request;
     var fractionPrice = this.state.fractionPrice;
     var ewText = this.state.ewText;
+    var alternateAlertMessage = 'You are confirming that you have placed £' + this.state.otherAmount + ' ' + this.state.ewOptions[this.state.selectedIndex] + ' on this selection';
     return (
-      <View>
+      <ScrollView>
         <View style={styles.headerSpace}/>
         <Text
           style={styles.text}
@@ -219,13 +230,31 @@ class Betaction extends Component {
             this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
           }}
         />
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.price.toString()}
+            onValueChange={(newPrice) => this.setState({price: newPrice})}>
+            { Object.keys(priceKeys).sort(function(a, b){return parseFloat(a)-parseFloat(b)}).map(function(key) {
+              return <Picker.Item
+                       key={key}
+                       value={key}
+                       label={priceKeys[key]} />
+            }) }
+          </Picker>
         <TouchableHighlight
           style={styles.button}
-          onPress={this.partialStakesReturned.bind(this)}
+          onPress={()=>Alert.alert(
+            'Confirm amount placed',
+            alternateAlertMessage,
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              {text: 'OK', onPress: this.partialStakesReturned.bind(this)}
+            ]
+            )}
           underlayColor="white">
-          <Text style={styles.buttonText}>Confirm Reduced Stakes</Text>
+          <Text style={styles.buttonText}>Confirm Stakes Placed</Text>
         </TouchableHighlight>
-      </View>
+      </ScrollView>
     );
   }
 
