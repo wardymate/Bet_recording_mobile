@@ -18,6 +18,9 @@ var styles = StyleSheet.create({
   textContainer: {
     flex: 1
   },
+  listView: {
+    marginTop: 30
+  },
   separator: {
     height: 1,
     backgroundColor: '#dddddd'
@@ -109,6 +112,7 @@ class BetRequests extends Component {
   render() {
     return (
       <ListView
+        style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
         />

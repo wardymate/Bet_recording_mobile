@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
     marginRight: 10
   },
   listView: {
-    marginTop: 20
+    marginTop: 30
   },
   textContainer: {
     flex: 1

@@ -66,17 +66,17 @@ const styles = StyleSheet.create({
     flex: 1
   },
   leftNavButtonText: {
-    fontSize: 18,
+    fontSize: 22,
     marginLeft:13,
     marginTop:2
     },
   rightNavButtonText: {
-    fontSize: 18,
+    fontSize: 24,
     marginRight:13,
     marginTop:2
   },
   nav: {
-    height: 30,
+    height: 40,
     backgroundColor: '#efefef'
   },
   title: {

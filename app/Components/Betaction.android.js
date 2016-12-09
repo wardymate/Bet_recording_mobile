@@ -34,7 +34,7 @@ var styles = StyleSheet.create({
     borderRadius: 8
   },
   headerSpace: {
-    height: 30,
+    height: 40,
     backgroundColor: 'white'
   },
   separator: {
@@ -227,7 +227,7 @@ class Betaction extends Component {
         <View style={styles.headerSpace}/>
         <Text
           style={styles.text}
-          >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name }
+          >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name } £{request.amount} {ewText} at {fractionPrice}
         </Text>
         <View style={styles.separator}/>
         <TouchableHighlight
