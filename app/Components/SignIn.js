@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import ReactNative, {
   AppRegistry,
+  AsyncStorage,
   StyleSheet,
   TextInput,
   Text,
@@ -68,6 +69,20 @@ class SignIn extends Component {
     }
   }
 
+  componentWillMount() {
+    AsyncStorage.multiGet(['token', 'userId']).then((data) => {
+      if(data[0][1]) {
+        var userData = {
+          auth_token: data[0][1],
+          id: data[1][1]
+        };
+        this.loadMainPage(userData);
+      } else {
+        return null;
+      }
+    })
+  }
+
   onEmailAddressChanged(event) {
     this.setState({ emailAddress: event.nativeEvent.text });
   }
@@ -95,8 +110,14 @@ class SignIn extends Component {
       });
     } else {
       this.setState({ isLoading: false });
+      this.storeUserData(response);
       this.loadMainPage(response);
     }
+  }
+
+  storeUserData(response) {
+    AsyncStorage.setItem('token', response.auth_token);
+    AsyncStorage.setItem('userId', response.id);
   }
 
   loadMainPage(response) {
