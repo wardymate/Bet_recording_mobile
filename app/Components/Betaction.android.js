@@ -229,6 +229,10 @@ class Betaction extends Component {
           style={styles.text}
           >{request.selection.name} {request.selection.event_name} {request.selection.event.meeting.name } £{request.amount} {ewText} at {fractionPrice}
         </Text>
+        <Text
+          style={styles.smallText}
+         >{request.comment}
+        </Text>
         <View style={styles.separator}/>
         <TouchableHighlight
           style={styles.button}

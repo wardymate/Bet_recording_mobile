@@ -80,7 +80,16 @@ class SignIn extends Component {
       } else {
         return null;
       }
-    })
+    });
+
+    AsyncStorage.multiGet(['pushToken', 'pushUserId']).then((data) => {
+      if(data[0][1]) {
+        this.setState({pushToken: data[0][1] });
+        this.setState({pushUserId: data[1][1]});
+      } else {
+        return null;
+      }
+    });
   }
 
   onEmailAddressChanged(event) {
@@ -93,7 +102,7 @@ class SignIn extends Component {
 
   requestLogin() {
     this.setState({ isLoading: true });
-    api.requestLogin(this.state.emailAddress, this.state.password)
+    api.requestLogin(this.state.emailAddress, this.state.password, this.state.pushToken, this.state.pushUserId)
       .then(json => this.actionLogin(json))
       .catch(error =>
         this.setState({

@@ -6,16 +6,28 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  AsyncStorage,
   StyleSheet,
   Text,
   Navigator,
   TouchableHighlight,
   View
 } from 'react-native';
+import OneSignal from 'react-native-onesignal';
 
 var SignIn = require('./app/Components/SignIn');
 
 class PuntingApp extends Component {
+
+  componentDidMount() {
+    OneSignal.configure({
+      onIdsAvailable: function(device) {
+        AsyncStorage.setItem('pushToken', device.pushToken);
+        AsyncStorage.setItem('pushUserId', device.userId);
+      }
+    });
+    OneSignal.enableInAppAlertNotification(true);
+  }
 
   renderScene(route, navigator) {
     return <route.component {...route.passProps} navigator={navigator} />

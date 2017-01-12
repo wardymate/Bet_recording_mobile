@@ -33,7 +33,7 @@ var api = {
       .then(res => res.json())
   },
 
-  requestLogin(email, password) {
+  requestLogin(email, password, pushToken, pushUserId) {
     var url = baseUrl + "/api/v1/sessions";
     var headers = {
       'Accept': 'application/json',
@@ -41,7 +41,9 @@ var api = {
     };
     var payload = {
       email: email,
-      password: password
+      password: password,
+      pushToken: pushToken,
+      pushUserId: pushUserId
     };
     var data = JSON.stringify( payload );
     return fetch(url, { method: "POST", headers: headers, body: data} )
