@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   AsyncStorage,
+  BackAndroid,
   StyleSheet,
   Text,
   Navigator,
@@ -19,6 +20,21 @@ var SignIn = require('./app/Components/SignIn');
 
 class PuntingApp extends Component {
 
+  constructor(props) {
+    super(props);
+    this.navigator;
+  }
+
+  componentWillMount() {
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
+        this.navigator.pop();
+        return true;
+      }
+      return false;
+    });
+  }
+
   componentDidMount() {
     OneSignal.configure({
       onIdsAvailable: function(device) {
@@ -30,6 +46,7 @@ class PuntingApp extends Component {
   }
 
   renderScene(route, navigator) {
+    this.navigator = navigator;
     return <route.component {...route.passProps} navigator={navigator} />
   }
 

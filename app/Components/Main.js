@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import ReactNative, {
   AppRegistry,
+  BackAndroid,
   StyleSheet,
   Text,
   ScrollView,
@@ -69,6 +70,16 @@ class Main extends Component {
       isLoading: false,
       error: false
     }
+  }
+
+  componentWillMount() {
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.props.navigator && this.props.navigator.getCurrentRoutes().length > 1) {
+        this.props.navigator.pop();
+        return true;
+      }
+      return false;
+    });
   }
 
   loadBookmakers() {
