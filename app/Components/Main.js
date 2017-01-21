@@ -13,9 +13,10 @@ import ReactNative, {
 } from 'react-native';
 
 var api = require('../Utils/api');
-var Bookmakers = require('./Bookmakers')
-var Bets = require('./Bets')
-var Transfers = require('./Transfers')
+var Bookmakers = require('./Bookmakers');
+var Bets = require('./Bets');
+var Transfers = require('./Transfers');
+var Summary = require('./Summary');
 
 const styles = StyleSheet.create({
   container: {
@@ -154,6 +155,30 @@ class Main extends Component {
     });
   }
 
+  loadDailySummary() {
+    this.setState({ isLoading: true });
+    api.getDailyFigures(this.props.token)
+      .then(json => this.displayDailyFigures(json))
+      .catch(error =>
+        this.setState({
+          isLoading: false,
+          message: 'Something went wrong' + error
+        }));
+  }
+
+  displayDailyFigures(response) {
+    this.setState({ isLoading: false, message: '' });
+    this.props.navigator.push({
+      title: 'Daily Figures',
+      component: Summary,
+      passProps: {
+        summary: response,
+        token: this.props.token,
+        userId: this.props.userId
+      }
+    });
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text>{this.state.error} </Text> : <View></View>
@@ -178,6 +203,12 @@ class Main extends Component {
         onPress={this.loadHoldingFigure.bind(this)}
         underlayColor="white">
         <Text style={styles.buttonText}>Holding Figure</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+        style={styles.button}
+        onPress={this.loadDailySummary.bind(this)}
+        underlayColor="white">
+        <Text style={styles.buttonText}>Daily Summary</Text>
         </TouchableHighlight>
         <ActivityIndicator
           animating={this.state.isLoading}

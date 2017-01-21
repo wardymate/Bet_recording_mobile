@@ -33,6 +33,16 @@ var api = {
       .then(res => res.json())
   },
 
+  getDailyFigures(token) {
+    var url = baseUrl + "/api/v1/daily_figures?token=" + token;
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    return fetch(url)
+      .then(res => res.json())
+  },
+
   requestLogin(email, password, pushToken, pushUserId) {
     var url = baseUrl + "/api/v1/sessions";
     var headers = {
